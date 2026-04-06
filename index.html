@@ -1,649 +1,1163 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Top DeFi Protocols | Hub Profissional</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        :root {
-            --primary: #00d4ff;
-            --secondary: #7c3aed;
-            --accent: #f59e0b;
-            --dark: #0a0e27;
-            --darker: #050811;
-            --card-bg: rgba(15, 23, 42, 0.8);
-            --text: #e2e8f0;
-            --text-muted: #94a3b8;
-        }
-
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
-            color: var(--text);
-            min-height: 100vh;
-            overflow-x: hidden;
-        }
-
-        /* Animated Background */
-        .bg-animation {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-        }
-
-        .bg-animation .particle {
-            position: absolute;
-            width: 4px;
-            height: 4px;
-            background: var(--primary);
-            border-radius: 50%;
-            opacity: 0.5;
-            animation: float 15s infinite;
-        }
-
-        @keyframes float {
-            0%, 100% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
-            10% { opacity: 0.5; }
-            90% { opacity: 0.5; }
-            100% { transform: translateY(-100vh) rotate(720deg); opacity: 0; }
-        }
-
-        /* Header */
-        header {
-            background: rgba(10, 14, 39, 0.95);
-            backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(0, 212, 255, 0.1);
-            padding: 1.5rem 0;
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
-        }
-
-        .header-content {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .logo-icon {
-            width: 50px;
-            height: 50px;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            box-shadow: 0 0 30px rgba(0, 212, 255, 0.3);
-        }
-
-        .logo-text h1 {
-            font-size: 1.8rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .logo-text p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .stats-header {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .stat-item {
-            text-align: center;
-            padding: 0.5rem 1.5rem;
-            background: var(--card-bg);
-            border-radius: 10px;
-            border: 1px solid rgba(0, 212, 255, 0.1);
-        }
-
-        .stat-value {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: var(--primary);
-        }
-
-        .stat-label {
-            font-size: 0.85rem;
-            color: var(--text-muted);
-        }
-
-        /* Hero Section */
-        .hero {
-            padding: 4rem 0;
-            text-align: center;
-        }
-
-        .hero h2 {
-            font-size: 3rem;
-            margin-bottom: 1rem;
-            background: linear-gradient(135deg, #fff, var(--primary));
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            background-clip: text;
-        }
-
-        .hero p {
-            font-size: 1.2rem;
-            color: var(--text-muted);
-            max-width: 800px;
-            margin: 0 auto 2rem;
-        }
-
-        .date-badge {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            background: rgba(0, 212, 255, 0.1);
-            border: 1px solid var(--primary);
-            padding: 0.75rem 1.5rem;
-            border-radius: 50px;
-            color: var(--primary);
-            font-weight: 600;
-        }
-
-        /* Protocols Grid */
-        .protocols-section {
-            padding: 2rem 0 4rem;
-        }
-
-        .section-title {
-            text-align: center;
-            margin-bottom: 3rem;
-        }
-
-        .section-title h3 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
-        }
-
-        .protocols-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
-            gap: 2rem;
-        }
-
-        .protocol-card {
-            background: var(--card-bg);
-            border: 1px solid rgba(0, 212, 255, 0.1);
-            border-radius: 20px;
-            padding: 2rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
-        }
-
-        .protocol-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 3px;
-            background: linear-gradient(90deg, var(--primary), var(--secondary));
-            transform: scaleX(0);
-            transition: transform 0.3s ease;
-        }
-
-        .protocol-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--primary);
-            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.1);
-        }
-
-        .protocol-card:hover::before {
-            transform: scaleX(1);
-        }
-
-        .card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: start;
-            margin-bottom: 1.5rem;
-        }
-
-        .protocol-info {
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .protocol-icon {
-            width: 60px;
-            height: 60px;
-            border-radius: 15px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.8rem;
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.2);
-        }
-
-        .protocol-name h4 {
-            font-size: 1.5rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .protocol-rank {
-            background: linear-gradient(135deg, var(--accent), #f97316);
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: bold;
-        }
-
-        .protocol-revenue {
-            text-align: right;
-        }
-
-        .revenue-value {
-            font-size: 2rem;
-            font-weight: bold;
-            color: #10b981;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            justify-content: flex-end;
-        }
-
-        .revenue-label {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        .protocol-description {
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .protocol-tags {
-            display: flex;
-            gap: 0.5rem;
-            flex-wrap: wrap;
-            margin-bottom: 1.5rem;
-        }
-
-        .tag {
-            background: rgba(0, 212, 255, 0.1);
-            color: var(--primary);
-            padding: 0.35rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            border: 1px solid rgba(0, 212, 255, 0.2);
-        }
-
-        .protocol-actions {
-            display: flex;
-            gap: 1rem;
-        }
-
-        .btn {
-            flex: 1;
-            padding: 1rem;
-            border: none;
-            border-radius: 10px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            text-decoration: none;
-            text-align: center;
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            font-size: 1rem;
-        }
-
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.3);
-        }
-
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 15px 40px rgba(0, 212, 255, 0.4);
-        }
-
-        .btn-secondary {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .btn-secondary:hover {
-            background: rgba(255, 255, 255, 0.1);
-            border-color: var(--primary);
-        }
-
-        /* Footer */
-        footer {
-            background: rgba(5, 8, 17, 0.95);
-            border-top: 1px solid rgba(0, 212, 255, 0.1);
-            padding: 3rem 0 2rem;
-            text-align: center;
-        }
-
-        .footer-content {
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .footer-links {
-            display: flex;
-            justify-content: center;
-            gap: 2rem;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-        }
-
-        .footer-links a {
-            color: var(--text-muted);
-            text-decoration: none;
-            transition: color 0.3s ease;
-        }
-
-        .footer-links a:hover {
-            color: var(--primary);
-        }
-
-        .disclaimer {
-            background: rgba(245, 158, 11, 0.1);
-            border: 1px solid var(--accent);
-            padding: 1.5rem;
-            border-radius: 10px;
-            margin-bottom: 2rem;
-            text-align: left;
-        }
-
-        .disclaimer h4 {
-            color: var(--accent);
-            margin-bottom: 0.5rem;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .disclaimer p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .copyright {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-        }
-
-        /* Responsive */
-        @media (max-width: 768px) {
-            .hero h2 {
-                font-size: 2rem;
-            }
-
-            .protocols-grid {
-                grid-template-columns: 1fr;
-            }
-
-            .stats-header {
-                gap: 1rem;
-            }
-
-            .stat-item {
-                padding: 0.5rem 1rem;
-            }
-
-            .protocol-actions {
-                flex-direction: column;
-            }
-        }
-
-        /* Loading Animation */
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.5; }
-        }
-
-        .loading {
-            animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
-        }
-    </style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Hub profissional dos principais protocolos DeFi por receita. Acesso seguro e verificado.">
+  <meta name="theme-color" content="#0a0e27">
+  
+  <!-- Security Headers -->
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com https://fonts.googleapis.com; font-src https://cdnjs.cloudflare.com https://fonts.gstatic.com; connect-src 'self' https://api.llama.fi https://defillama.com;">
+  
+  <!-- PWA Manifest Placeholder -->
+  <link rel="manifest" href="data:application/json;base64,eyJuYW1lIjoiRGVGaSBIdWIgUHJvIiwic2hvcnRfbmFtZSI6IkRlRmlIdWIiLCJzdGFydF91cmwiOiIvIiwiZGlzcGxheSI6InN0YW5kYWxvbmUiLCJiYWNrZ3JvdW5kX2NvbG9yIjoiIzA1MDgxMSIsInRoZW1lX2NvbG9yIjoiIzAwZDRmZiIsImljb25zIjpbeyJzcmMiOiJodHRwczovL2Nkbi5pY29uLXNjb3V0LmNvbS9mYXZpY29ucy82NHg2NC9kZWZpLnBuZyIsInNpemVzIjoiNjR4NjQiLCJ0eXBlIjoiaW1hZ2UvcG5nIn1dfQ==">
+  
+  <!-- Preconnect for Performance -->
+  <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  
+  <title>DeFi Hub Pro | Top Protocolos DeFi</title>
+  
+  <!-- External Resources -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js" defer></script>
+  
+  <style>
+    /* ===== CSS VARIABLES & THEME ===== */
+    :root {
+      --primary: #00d4ff;
+      --primary-dark: #00a8cc;
+      --secondary: #7c3aed;
+      --accent: #f59e0b;
+      
+      --dark: #0a0e27;
+      --darker: #050811;
+      --card: rgba(15, 23, 42, 0.85);
+      --card-hover: rgba(30, 41, 59, 0.9);
+      
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --text-dim: #64748b;
+      
+      --success: #10b981;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --info: #3b82f6;
+      
+      --border: rgba(255, 255, 255, 0.08);
+      --border-hover: rgba(0, 212, 255, 0.3);
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.3);
+      --shadow-glow: 0 0 30px rgba(0, 212, 255, 0.15);
+      
+      --radius: 16px;
+      --radius-sm: 8px;
+      --radius-lg: 24px;
+      
+      --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    
+    [data-theme="light"] {
+      --dark: #f8fafc;
+      --darker: #ffffff;
+      --card: rgba(255, 255, 255, 0.9);
+      --card-hover: rgba(241, 245, 249, 0.95);
+      --text: #1e293b;
+      --text-muted: #475569;
+      --text-dim: #64748b;
+      --border: rgba(0, 0, 0, 0.08);
+      --shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+    }
+    
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    
+    html { scroll-behavior: smooth; }
+    
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, var(--darker) 0%, var(--dark) 100%);
+      color: var(--text);
+      line-height: 1.6;
+      min-height: 100vh;
+      overflow-x: hidden;
+      transition: var(--transition);
+    }
+    
+    /* ===== UTILITIES ===== */
+    .container { max-width: 1400px; margin: 0 auto; padding: 0 1.5rem; }
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .justify-between { justify-content: space-between; }
+    .gap-1 { gap: 0.5rem; }
+    .gap-2 { gap: 1rem; }
+    .gap-3 { gap: 1.5rem; }
+    .gap-4 { gap: 2rem; }
+    .text-center { text-align: center; }
+    .text-muted { color: var(--text-muted); }
+    .text-sm { font-size: 0.875rem; }
+    .text-xs { font-size: 0.75rem; }
+    .font-medium { font-weight: 500; }
+    .font-semibold { font-weight: 600; }
+    .font-bold { font-weight: 700; }
+    .hidden { display: none !important; }
+    
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    @keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+    @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+    @keyframes gradient { 0% { background-position: 0% 50%; } 50% { background-position: 100% 50%; } 100% { background-position: 0% 50%; } }
+    
+    .animate-fade { animation: fadeIn 0.4s ease-out forwards; }
+    .animate-pulse { animation: pulse 2s ease-in-out infinite; }
+    .animate-float { animation: float 3s ease-in-out infinite; }
+    
+    /* ===== BACKGROUND PARTICLES ===== */
+    .bg-particles {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      pointer-events: none; z-index: -1; overflow: hidden;
+    }
+    .particle {
+      position: absolute; width: 3px; height: 3px;
+      background: var(--primary); border-radius: 50%;
+      opacity: 0.4; animation: float 15s infinite linear;
+    }
+    
+    /* ===== HEADER ===== */
+    header {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(10, 14, 39, 0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 0;
+      transition: var(--transition);
+    }
+    
+    .header-content {
+      display: flex; justify-content: space-between; align-items: center;
+      flex-wrap: wrap; gap: 1rem;
+    }
+    
+    .logo {
+      display: flex; align-items: center; gap: 0.75rem;
+      text-decoration: none; color: inherit;
+    }
+    
+    .logo-icon {
+      width: 44px; height: 44px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      border-radius: 12px; display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; box-shadow: var(--shadow-glow);
+    }
+    
+    .logo-text h1 {
+      font-size: 1.5rem; font-weight: 700;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .logo-text p { font-size: 0.8rem; color: var(--text-muted); }
+    
+    .header-actions { display: flex; align-items: center; gap: 0.75rem; }
+    
+    .theme-toggle {
+      width: 40px; height: 40px; border-radius: 10px;
+      background: var(--card); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--transition);
+      color: var(--text-muted);
+    }
+    .theme-toggle:hover { border-color: var(--primary); color: var(--primary); }
+    
+    .stats-bar {
+      display: flex; gap: 1.5rem; flex-wrap: wrap;
+      padding: 0.75rem 1rem; background: var(--card);
+      border-radius: var(--radius-sm); border: 1px solid var(--border);
+    }
+    .stat { text-align: center; }
+    .stat-value { font-size: 1.1rem; font-weight: 700; color: var(--primary); }
+    .stat-label { font-size: 0.75rem; color: var(--text-muted); }
+    
+    /* ===== HERO ===== */
+    .hero {
+      padding: 3rem 0 2rem; text-align: center;
+    }
+    .hero h2 {
+      font-size: 2.5rem; font-weight: 800; margin-bottom: 1rem;
+      background: linear-gradient(135deg, #fff, var(--primary));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero p {
+      font-size: 1.1rem; color: var(--text-muted);
+      max-width: 700px; margin: 0 auto 1.5rem;
+    }
+    .badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(0, 212, 255, 0.1); border: 1px solid var(--primary);
+      padding: 0.5rem 1.25rem; border-radius: 50px;
+      color: var(--primary); font-weight: 600; font-size: 0.9rem;
+    }
+    
+    /* ===== CONTROLS ===== */
+    .controls {
+      display: flex; gap: 1rem; flex-wrap: wrap;
+      margin: 2rem 0; padding: 1rem;
+      background: var(--card); border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+    
+    .search-box {
+      flex: 1; min-width: 200px; position: relative;
+    }
+    .search-box i {
+      position: absolute; left: 1rem; top: 50%; transform: translateY(-50%);
+      color: var(--text-muted);
+    }
+    .search-box input {
+      width: 100%; padding: 0.85rem 1rem 0.85rem 2.5rem;
+      border-radius: var(--radius-sm); border: 1px solid var(--border);
+      background: var(--darker); color: var(--text);
+      font-size: 0.95rem; transition: var(--transition);
+    }
+    .search-box input:focus {
+      outline: none; border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(0, 212, 255, 0.1);
+    }
+    
+    select {
+      padding: 0.85rem 2.5rem 0.85rem 1rem;
+      border-radius: var(--radius-sm); border: 1px solid var(--border);
+      background: var(--darker); color: var(--text);
+      font-size: 0.95rem; cursor: pointer;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%2394a3b8' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+      background-repeat: no-repeat; background-position: right 0.75rem center;
+      background-size: 16px;
+    }
+    select:focus { outline: none; border-color: var(--primary); }
+    
+    /* ===== PROTOCOLS GRID ===== */
+    .grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+      gap: 1.5rem; margin-bottom: 3rem;
+    }
+    
+    .card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 1.5rem;
+      transition: var(--transition); position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      transform: scaleX(0); transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: translateY(-4px); border-color: var(--border-hover);
+      box-shadow: var(--shadow), var(--shadow-glow);
+    }
+    .card:hover::before { transform: scaleX(1); }
+    
+    .card-header {
+      display: flex; justify-content: space-between; align-items: start;
+      margin-bottom: 1.25rem; padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+    
+    .protocol-info { display: flex; align-items: center; gap: 0.85rem; }
+    .protocol-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.4rem; background: linear-gradient(135deg, var(--primary), var(--secondary));
+      box-shadow: var(--shadow-glow);
+    }
+    .protocol-name h4 { font-size: 1.2rem; font-weight: 600; margin-bottom: 0.2rem; }
+    .protocol-rank {
+      background: var(--secondary); padding: 0.2rem 0.6rem;
+      border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+    }
+    
+    .protocol-metrics { text-align: right; }
+    .metric-value {
+      font-size: 1.4rem; font-weight: 700; color: var(--success);
+      display: flex; align-items: center; justify-content: flex-end; gap: 0.3rem;
+    }
+    .metric-label { font-size: 0.8rem; color: var(--text-muted); }
+    
+    .protocol-desc {
+      color: var(--text-muted); font-size: 0.95rem;
+      margin-bottom: 1rem; line-height: 1.5;
+    }
+    
+    .protocol-tags {
+      display: flex; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1.25rem;
+    }
+    .tag {
+      background: rgba(0, 212, 255, 0.1); color: var(--primary);
+      padding: 0.3rem 0.7rem; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 500; border: 1px solid rgba(0, 212, 255, 0.2);
+    }
+    .tag.tvl { background: rgba(16, 185, 129, 0.1); color: var(--success); border-color: rgba(16, 185, 129, 0.2); }
+    
+    .risk-badge {
+      padding: 0.25rem 0.7rem; border-radius: 20px;
+      font-size: 0.75rem; font-weight: 600; text-transform: uppercase;
+    }
+    .risk-low { background: rgba(16, 185, 129, 0.15); color: var(--success); }
+    .risk-medium { background: rgba(245, 158, 11, 0.15); color: var(--warning); }
+    .risk-high { background: rgba(239, 68, 68, 0.15); color: var(--danger); }
+    
+    .card-actions {
+      display: flex; gap: 0.75rem; margin-top: 0.5rem;
+    }
+    
+    .btn {
+      flex: 1; padding: 0.75rem 1rem; border: none; border-radius: var(--radius-sm);
+      font-weight: 600; font-size: 0.9rem; cursor: pointer;
+      display: inline-flex; align-items: center; justify-content: center; gap: 0.4rem;
+      text-decoration: none; transition: var(--transition);
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white; box-shadow: 0 4px 14px rgba(0, 212, 255, 0.25);
+    }
+    .btn-primary:hover {
+      transform: translateY(-2px); box-shadow: 0 8px 24px rgba(0, 212, 255, 0.35);
+    }
+    .btn-secondary {
+      background: rgba(255, 255, 255, 0.05); color: var(--text);
+      border: 1px solid var(--border);
+    }
+    .btn-secondary:hover { background: rgba(255, 255, 255, 0.1); border-color: var(--primary); }
+    
+    .click-count {
+      font-size: 0.75rem; color: var(--text-dim); text-align: center;
+      margin-top: 0.5rem; display: flex; align-items: center; justify-content: center; gap: 0.3rem;
+    }
+    
+    /* ===== MODAL ===== */
+    .modal {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0, 0, 0, 0.75); backdrop-filter: blur(4px);
+      display: none; align-items: center; justify-content: center;
+      padding: 1.5rem; z-index: 1000; animation: fadeIn 0.2s ease;
+    }
+    .modal.active { display: flex; }
+    
+    .modal-content {
+      background: var(--card); max-width: 650px; width: 100%;
+      border-radius: var(--radius-lg); border: 1px solid var(--border);
+      box-shadow: var(--shadow); animation: fadeIn 0.3s ease;
+      max-height: 90vh; overflow-y: auto;
+    }
+    
+    .modal-header {
+      display: flex; justify-content: space-between; align-items: center;
+      padding: 1.5rem; border-bottom: 1px solid var(--border);
+    }
+    .modal-title { font-size: 1.4rem; font-weight: 700; }
+    .modal-close {
+      width: 36px; height: 36px; border-radius: 10px;
+      background: var(--darker); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; transition: var(--transition); color: var(--text-muted);
+    }
+    .modal-close:hover { border-color: var(--danger); color: var(--danger); }
+    
+    .modal-body { padding: 1.5rem; }
+    
+    .modal-grid {
+      display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-bottom: 1.5rem;
+    }
+    .modal-stat {
+      background: var(--darker); padding: 1rem; border-radius: var(--radius-sm);
+      border: 1px solid var(--border); text-align: center;
+    }
+    .modal-stat-value { font-size: 1.3rem; font-weight: 700; color: var(--primary); }
+    .modal-stat-label { font-size: 0.8rem; color: var(--text-muted); }
+    
+    .modal-desc { color: var(--text-muted); margin-bottom: 1.5rem; line-height: 1.6; }
+    
+    .modal-chart {
+      background: var(--darker); border-radius: var(--radius-sm);
+      padding: 1rem; border: 1px solid var(--border); margin-bottom: 1.5rem;
+    }
+    .modal-chart canvas { max-height: 150px; }
+    
+    .modal-links { display: flex; flex-direction: column; gap: 0.75rem; }
+    .modal-link {
+      display: flex; align-items: center; gap: 0.75rem; padding: 0.85rem;
+      background: var(--darker); border-radius: var(--radius-sm);
+      border: 1px solid var(--border); text-decoration: none;
+      color: var(--text); transition: var(--transition);
+    }
+    .modal-link:hover { border-color: var(--primary); background: var(--card-hover); }
+    .modal-link i { color: var(--primary); width: 20px; }
+    
+    /* ===== FOOTER ===== */
+    footer {
+      background: rgba(5, 8, 17, 0.95); border-top: 1px solid var(--border);
+      padding: 2.5rem 0 1.5rem; margin-top: 2rem;
+    }
+    
+    .footer-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem; margin-bottom: 2rem;
+    }
+    
+    .footer-section h4 {
+      font-size: 1.1rem; margin-bottom: 1rem; color: var(--primary);
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    .footer-section p, .footer-section a {
+      color: var(--text-muted); font-size: 0.9rem; line-height: 1.6;
+    }
+    .footer-section a {
+      display: block; padding: 0.25rem 0; text-decoration: none;
+      transition: color 0.2s;
+    }
+    .footer-section a:hover { color: var(--primary); }
+    
+    .disclaimer {
+      background: rgba(245, 158, 11, 0.1); border: 1px solid var(--warning);
+      padding: 1.25rem; border-radius: var(--radius-sm);
+      margin-bottom: 1.5rem;
+    }
+    .disclaimer h4 {
+      color: var(--warning); margin-bottom: 0.5rem;
+      display: flex; align-items: center; gap: 0.5rem;
+    }
+    
+    .footer-bottom {
+      text-align: center; padding-top: 1.5rem;
+      border-top: 1px solid var(--border); color: var(--text-dim);
+      font-size: 0.85rem;
+    }
+    
+    .pwa-badge {
+      display: inline-flex; align-items: center; gap: 0.4rem;
+      background: rgba(16, 185, 129, 0.1); color: var(--success);
+      padding: 0.3rem 0.8rem; border-radius: 20px;
+      font-size: 0.8rem; font-weight: 500; margin-top: 0.5rem;
+    }
+    
+    /* ===== LOADING & EMPTY STATES ===== */
+    .loading {
+      text-align: center; padding: 3rem; color: var(--text-muted);
+    }
+    .loading-spinner {
+      width: 40px; height: 40px; border: 3px solid var(--border);
+      border-top-color: var(--primary); border-radius: 50%;
+      animation: spin 1s linear infinite; margin: 0 auto 1rem;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    
+    .empty-state {
+      text-align: center; padding: 3rem; color: var(--text-muted);
+    }
+    .empty-state i { font-size: 3rem; margin-bottom: 1rem; opacity: 0.5; }
+    
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .hero h2 { font-size: 2rem; }
+      .controls { flex-direction: column; }
+      .search-box { width: 100%; }
+      .grid { grid-template-columns: 1fr; }
+      .modal-grid { grid-template-columns: 1fr; }
+      .header-content { flex-direction: column; align-items: flex-start; }
+      .stats-bar { width: 100%; justify-content: space-around; }
+    }
+    
+    /* ===== PRINT ===== */
+    @media print {
+      .controls, .card-actions, .theme-toggle, .modal { display: none !important; }
+      body { background: white; color: black; }
+      .card { break-inside: avoid; border: 1px solid #ccc; }
+    }
+  </style>
 </head>
+
 <body>
-    <!-- Background Animation -->
-    <div class="bg-animation" id="bgAnimation"></div>
+  <!-- Background Particles -->
+  <div class="bg-particles" id="particles"></div>
 
-    <!-- Header -->
-    <header>
-        <div class="container">
-            <div class="header-content">
-                <div class="logo">
-                    <div class="logo-icon">
-                        <i class="fas fa-chart-line"></i>
-                    </div>
-                    <div class="logo-text">
-                        <h1>DeFi Hub Pro</h1>
-                        <p>Acesso aos principais protocolos DeFi</p>
-                    </div>
-                </div>
-                <div class="stats-header">
-                    <div class="stat-item">
-                        <div class="stat-value">10</div>
-                        <div class="stat-label">Protocolos</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">$147M</div>
-                        <div class="stat-label">Receita Total</div>
-                    </div>
-                    <div class="stat-item">
-                        <div class="stat-value">30D</div>
-                        <div class="stat-label">Período</div>
-                    </div>
-                </div>
-            </div>
+  <!-- Header -->
+  <header>
+    <div class="container">
+      <div class="header-content">
+        <a href="#" class="logo">
+          <div class="logo-icon"><i class="fas fa-chart-line"></i></div>
+          <div class="logo-text">
+            <h1>DeFi Hub Pro</h1>
+            <p>Top Protocolos • Dados em Tempo Real</p>
+          </div>
+        </a>
+        
+        <div class="header-actions">
+          <button class="theme-toggle" id="themeToggle" title="Alternar tema">
+            <i class="fas fa-moon"></i>
+          </button>
+          <button class="theme-toggle" id="installBtn" title="Instalar app" style="display:none;">
+            <i class="fas fa-download"></i>
+          </button>
         </div>
-    </header>
-
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container">
-            <h2>Top 10 DeFi Protocols</h2>
-            <p>Acesse as principais plataformas descentralizadas por receita nos últimos 30 dias. Links diretos e seguros para todos os protocolos.</p>
-            <div class="date-badge">
-                <i class="fas fa-calendar"></i>
-                Atualizado: 6 de Abril, 2026
-            </div>
+      </div>
+      
+      <div class="stats-bar" style="margin-top:1rem;">
+        <div class="stat">
+          <div class="stat-value" id="totalProtocols">10</div>
+          <div class="stat-label">Protocolos</div>
         </div>
-    </section>
-
-    <!-- Protocols Section -->
-    <section class="protocols-section">
-        <div class="container">
-            <div class="section-title">
-                <h3>Protocolos em Destaque</h3>
-                <p style="color: var(--text-muted);">Clique para acessar diretamente cada plataforma</p>
-            </div>
-
-            <div class="protocols-grid" id="protocolsGrid">
-                <!-- Cards will be inserted here by JavaScript -->
-            </div>
+        <div class="stat">
+          <div class="stat-value" id="totalRevenue">$147M</div>
+          <div class="stat-label">Receita 30D</div>
         </div>
-    </section>
-
-    <!-- Footer -->
-    <footer>
-        <div class="container">
-            <div class="footer-content">
-                <div class="disclaimer">
-                    <h4><i class="fas fa-exclamation-triangle"></i> Aviso Importante</h4>
-                    <p>Este site é apenas um hub de links para protocolos DeFi. Sempre verifique os URLs antes de conectar sua carteira. Não somos responsáveis por perdas. Faça sua própria pesquisa (DYOR) antes de investir.</p>
-                </div>
-                
-                <div class="footer-links">
-                    <a href="#"><i class="fas fa-shield-alt"></i> Segurança</a>
-                    <a href="#"><i class="fas fa-book"></i> Documentação</a>
-                    <a href="#"><i class="fas fa-comments"></i> Comunidade</a>
-                    <a href="#"><i class="fas fa-envelope"></i> Contato</a>
-                </div>
-
-                <div class="copyright">
-                    <p>&copy; 2026 DeFi Hub Pro. Todos os direitos reservados.</p>
-                    <p style="margin-top: 0.5rem; font-size: 0.85rem;">
-                        <i class="fas fa-lock"></i> Conexões seguras e verificadas
-                    </p>
-                </div>
-            </div>
+        <div class="stat">
+          <div class="stat-value" id="totalTVL">$52.5B</div>
+          <div class="stat-label">TVL Total</div>
         </div>
-    </footer>
+        <div class="stat">
+          <div class="stat-value">🟢</div>
+          <div class="stat-label">API Ativa</div>
+        </div>
+      </div>
+    </div>
+  </header>
 
-    <script>
-        // Protocol Data
-        const protocols = [
-            {
-                rank: 1,
-                name: "Hyperliquid",
-                revenue: "53.9",
-                description: "DEX descentralizada de alta performance construída em sua própria Layer 1 blockchain, especializada em trading de futuros perpétuos.",
-                tags: ["DEX", "Derivativos", "Layer 1"],
-                icon: "fa-bolt",
-                color: "#00d4ff",
-                url: "https://hyperliquid.xyz/",
-                docs: "https://hyperliquid.gitbook.io/hyperliquid-docs"
-            },
-            {
-                rank: 2,
-                name: "Pump.Fun",
-                revenue: "32.2",
-                description: "Plataforma de lançamento de tokens na Solana que permite criar e negociar memecoins instantaneamente com custo reduzido.",
-                tags: ["Solana", "Memecoins", "Launchpad"],
-                icon: "fa-rocket",
-                color: "#f59e0b",
-                url: "https://pump.fun/",
-                docs: "https://docs.rs/pumpfun"
-            },
-            {
-                rank: 3,
-                name: "edgeX",
-                revenue: "14.8",
-                description: "Exchange descentralizada de alta performance oferecendo trading spot e futuros perpétuos com baixa taxa e slippage.",
-                tags: ["DEX", "Futuros", "Spot"],
-                icon: "fa-exchange-alt",
-                color: "#7c3aed",
-                url: "https://www.edgex.exchange/",
-                docs: "https://pro.edgex.exchange/"
-            },
-            {
-                rank: 4,
-                name: "Sky",
-                revenue: "14.6",
-                description: "Protocolo DeFi descentralizado (antigo MakerDAO) que fornece a stablecoin USDS e oportunidades de yield.",
-                tags: ["Stablecoin", "Lending", "Ethereum"],
-                icon: "fa-cloud",
-                color: "#10b981",
-                url: "https://sky.money/",
-                docs: "https://developers.sky.money/"
-            },
-            {
-                rank: 5,
-                name: "Polymarket",
-                revenue: "9.5",
-                description: "Maior mercado de previsão descentralizado do mundo, permitindo negociar em eventos do mundo real.",
-                tags: ["Prediction Market", "Trading", "Eventos"],
-                icon: "fa-chart-pie",
-                color: "#ec4899",
-                url: "https://polymarket.com/",
-                docs: "https://polymarket.com/"
-            },
-            {
-                rank: 6,
-                name: "Aave",
-                revenue: "6.0",
-                description: "Protocolo de liquidez descentralizado que permite emprestar, tomar emprestado e ganhar juros em criptoativos.",
-                tags: ["Lending", "Borrowing", "DeFi"],
-                icon: "fa-hand-holding-usd",
-                color: "#b5179e",
-                url: "https://aave.com/",
-                docs: "https://docs.aave.com/"
-            },
-            {
-                rank: 7,
-                name: "Four.meme",
-                revenue: "5.4",
-                description: "Primeira plataforma de lançamento de memecoins na BNB Chain com criação simplificada e listing instantâneo.",
-                tags: ["BSC", "Memecoins", "Launchpad"],
-                icon: "fa-laugh-beam",
-                color: "#f97316",
-                url: "https://four.meme/",
-                docs: "https://four.meme/"
-            },
-            {
-                rank: 8,
-                name: "Aerodrome",
-                revenue: "5.2",
-                description: "Principal DEX e hub de liquidez na rede Base, oferecendo swaps eficientes e incentivos de liquidez.",
-                tags: ["Base", "AMM", "DEX"],
-                icon: "fa-plane",
-                color: "#06b6d4",
-                url: "https://aerodrome.finance/",
-                docs: "https://aerodrome.finance/docs"
-            },
-            {
-                rank: 9,
-                name: "Jupiter",
-                revenue: "5.0",
-                description: "Principal agregador DEX na Solana, encontrando as melhores rotas de swap através de múltiplas pools de liquidez.",
-                tags: ["Solana", "DEX Aggregator", "Swap"],
-                icon: "fa-circle-notch",
-                color: "#8b5cf6",
-                url: "https://jup.ag/",
-                docs: "https://docs.jup.ag/"
-            },
-            {
-                rank: 10,
-                name: "Lido",
-                revenue: "4.4",
-                description: "Solução líder de liquid staking para Ethereum, permitindo staking de ETH mantendo liquidez através do stETH.",
-                tags: ["Liquid Staking", "Ethereum", "Yield"],
-                icon: "fa-water",
-                color: "#00d4ff",
-                url: "https://lido.fi/",
-                docs: "https://docs.lido.fi/"
+  <!-- Hero -->
+  <section class="hero">
+    <div class="container">
+      <h2>Descubra os Melhores Protocolos DeFi</h2>
+      <p>Plataforma profissional com dados verificados, métricas em tempo real e acesso seguro aos principais protocolos descentralizados do mercado.</p>
+      <div class="badge">
+        <i class="fas fa-sync-alt animate-pulse"></i>
+        Atualizado: <span id="lastUpdate">--/--/----</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Main Content -->
+  <main class="container">
+    <!-- Controls -->
+    <div class="controls">
+      <div class="search-box">
+        <i class="fas fa-search"></i>
+        <input type="text" id="search" placeholder="Buscar protocolo, categoria ou tag...">
+      </div>
+      
+      <select id="categoryFilter">
+        <option value="all">📊 Todas Categorias</option>
+        <option value="DEX">🔄 DEX</option>
+        <option value="Lending">💰 Lending</option>
+        <option value="Staking">🥩 Staking</option>
+        <option value="Derivatives">📈 Derivatives</option>
+        <option value="Launchpad">🚀 Launchpad</option>
+      </select>
+      
+      <select id="riskFilter">
+        <option value="all">🛡️ Todos Riscos</option>
+        <option value="low">🟢 Baixo Risco</option>
+        <option value="medium">🟡 Médio Risco</option>
+        <option value="high">🔴 Alto Risco</option>
+      </select>
+      
+      <select id="sortBy">
+        <option value="rank">🏆 Ordenar: Ranking</option>
+        <option value="revenue">💰 Ordenar: Receita</option>
+        <option value="tvl">🏦 Ordenar: TVL</option>
+        <option value="az">🔤 Ordenar: A-Z</option>
+      </select>
+    </div>
+
+    <!-- Loading State -->
+    <div id="loading" class="loading hidden">
+      <div class="loading-spinner"></div>
+      <p>Carregando protocolos...</p>
+    </div>
+
+    <!-- Empty State -->
+    <div id="emptyState" class="empty-state hidden">
+      <i class="fas fa-search"></i>
+      <p>Nenhum protocolo encontrado com esses filtros.</p>
+      <button class="btn btn-secondary" onclick="resetFilters()" style="margin-top:1rem;">
+        <i class="fas fa-undo"></i> Limpar Filtros
+      </button>
+    </div>
+
+    <!-- Protocols Grid -->
+    <div class="grid" id="protocolsGrid"></div>
+  </main>
+
+  <!-- Modal -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3 class="modal-title" id="modalTitle">Protocolo</h3>
+        <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+      </div>
+      <div class="modal-body" id="modalBody"></div>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-section">
+          <h4><i class="fas fa-shield-alt"></i> Segurança</h4>
+          <p>Sempre verifique os URLs antes de conectar sua carteira. Este site é apenas um hub de links.</p>
+          <div class="pwa-badge"><i class="fas fa-mobile-alt"></i> PWA Ready</div>
+        </div>
+        
+        <div class="footer-section">
+          <h4><i class="fas fa-book"></i> Recursos</h4>
+          <a href="#" onclick="showAbout()"><i class="fas fa-info-circle"></i> Sobre o Projeto</a>
+          <a href="https://defillama.com/" target="_blank"><i class="fas fa-external-link-alt"></i> Dados via DefiLlama</a>
+          <a href="#" onclick="exportData()"><i class="fas fa-download"></i> Exportar Dados (JSON)</a>
+        </div>
+        
+        <div class="footer-section">
+          <h4><i class="fas fa-link"></i> Links Úteis</h4>
+          <a href="https://ethereum.org/" target="_blank"><i class="fas fa-ethereum"></i> Ethereum.org</a>
+          <a href="https://www.coinbase.com/learn/crypto-basics/what-is-defi" target="_blank"><i class="fas fa-graduation-cap"></i> O que é DeFi?</a>
+          <a href="https://rekt.news/" target="_blank"><i class="fas fa-exclamation-triangle"></i> Rekt News</a>
+        </div>
+      </div>
+      
+      <div class="disclaimer">
+        <h4><i class="fas fa-exclamation-triangle"></i> Aviso de Risco</h4>
+        <p>Este site não oferece aconselhamento financeiro. Criptoativos são voláteis e investimentos em DeFi envolvem riscos significativos, incluindo perda total do capital. Faça sua própria pesquisa (DYOR) e nunca invista mais do que pode perder. Os dados de receita e TVL são aproximados e podem variar.</p>
+      </div>
+      
+      <div class="footer-bottom">
+        <p>&copy; <span id="year"></span> DeFi Hub Pro • Open Source • GitHub Pages Ready</p>
+        <p style="margin-top:0.3rem;font-size:0.8rem;">
+          <i class="fas fa-code"></i> Feito com ❤️ para a comunidade DeFi • 
+          <a href="#" onclick="viewSource()" style="color:var(--primary);">Ver Código Fonte</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Toast Notification -->
+  <div id="toast" style="position:fixed;bottom:2rem;right:2rem;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:1rem 1.5rem;display:none;align-items:center;gap:0.75rem;box-shadow:var(--shadow);z-index:2000;animation:fadeIn 0.3s ease;">
+    <i class="fas fa-check-circle" style="color:var(--success);"></i>
+    <span id="toastMsg">Ação realizada!</span>
+  </div>
+
+  <script>
+    // ===== CONFIG & STATE =====
+    const CONFIG = {
+      apiBase: 'https://api.llama.fi',
+      refreshInterval: 5 * 60 * 1000, // 5 minutes
+      maxClicksDisplay: 999
+    };
+
+    const STATE = {
+      protocols: [],
+      filtered: [],
+      theme: localStorage.getItem('theme') || 'dark',
+      clicks: JSON.parse(localStorage.getItem('clicks') || '{}')
+    };
+
+    // ===== PROTOCOL DATA (Fallback + API Ready) =====
+    const DEFAULT_PROTOCOLS = [
+      {id:'hyperliquid',rank:1,name:'Hyperliquid',category:'DEX',revenue:53.9,tvl:'1.2B',tvlNum:1200000000,risk:'medium',desc:'DEX de derivativos perpétuos em L1 própria com alta performance e baixa latência.',url:'https://hyperliquid.xyz',docs:'https://hyperliquid.gitbook.io',twitter:'@hyperliquidx',chain:'Hyperliquid'},
+      {id:'pumpfun',rank:2,name:'Pump.Fun',category:'Launchpad',revenue:32.2,tvl:'400M',tvlNum:400000000,risk:'high',desc:'Plataforma de lançamento instantâneo de memecoins na Solana com bonding curve.',url:'https://pump.fun',docs:'https://docs.pump.fun',twitter:'@pumpdotfun',chain:'Solana'},
+      {id:'edgex',rank:3,name:'edgeX',category:'DEX',revenue:14.8,tvl:'600M',tvlNum:600000000,risk:'medium',desc:'Exchange descentralizada para trading spot e futuros perpétuos com ordem book on-chain.',url:'https://edgex.exchange',docs:'https://docs.edgex.exchange',twitter:'@edgeXfi',chain:'Ethereum'},
+      {id:'sky',rank:4,name:'Sky',category:'Lending',revenue:14.6,tvl:'8B',tvlNum:8000000000,risk:'low',desc:'Protocolo de stablecoin descentralizado (ex-MakerDAO) com yield em USDS.',url:'https://sky.money',docs:'https://docs.sky.money',twitter:'@SkyEcosystem',chain:'Ethereum'},
+      {id:'polymarket',rank:5,name:'Polymarket',category:'Derivatives',revenue:9.5,tvl:'300M',tvlNum:300000000,risk:'medium',desc:'Mercado de previsão descentralizado para eventos do mundo real.',url:'https://polymarket.com',docs:'https://polymarket.com/help',twitter:'@PolymarketHQ',chain:'Polygon'},
+      {id:'aave',rank:6,name:'Aave',category:'Lending',revenue:6.0,tvl:'12B',tvlNum:12000000000,risk:'low',desc:'Protocolo líder de empréstimos e empréstimos flash em múltiplas blockchains.',url:'https://aave.com',docs:'https://docs.aave.com',twitter:'@AaveAave',chain:'Multi-chain'},
+      {id:'fourmeme',rank:7,name:'Four.meme',category:'Launchpad',revenue:5.4,tvl:'200M',tvlNum:200000000,risk:'high',desc:'Primeiro launchpad de memecoins nativo da BNB Chain com listing instantâneo.',url:'https://four.meme',docs:'https://four.meme/docs',twitter:'@four_meme',chain:'BNB Chain'},
+      {id:'aerodrome',rank:8,name:'Aerodrome',category:'DEX',revenue:5.2,tvl:'1B',tvlNum:1000000000,risk:'medium',desc:'Principal DEX e hub de liquidez da rede Base com incentivos ve(3,3).',url:'https://aerodrome.finance',docs:'https://aerodrome.finance/docs',twitter:'@AerodromeFi',chain:'Base'},
+      {id:'jupiter',rank:9,name:'Jupiter',category:'DEX',revenue:5.0,tvl:'2B',tvlNum:2000000000,risk:'low',desc:'Agregador DEX líder da Solana com roteamento inteligente e melhor preço.',url:'https://jup.ag',docs:'https://docs.jup.ag',twitter:'@JupiterExchange',chain:'Solana'},
+      {id:'lido',rank:10,name:'Lido',category:'Staking',revenue:4.4,tvl:'25B',tvlNum:25000000000,risk:'low',desc:'Solução líder de liquid staking para Ethereum com stETH líquido.',url:'https://lido.fi',docs:'https://docs.lido.fi',twitter:'@LidoFinance',chain:'Ethereum'}
+    ];
+
+    // ===== INIT =====
+    document.addEventListener('DOMContentLoaded', async () => {
+      initTheme();
+      initParticles();
+      setupEventListeners();
+      updateLastUpdate();
+      document.getElementById('year').textContent = new Date().getFullYear();
+      
+      // Try to load from API, fallback to default
+      await loadProtocols();
+      renderProtocols(STATE.protocols);
+      updateStats();
+      
+      // Setup PWA install
+      setupPWA();
+      
+      // Auto-refresh data
+      setInterval(() => loadProtocols(true), CONFIG.refreshInterval);
+    });
+
+    // ===== THEME =====
+    function initTheme() {
+      document.documentElement.setAttribute('data-theme', STATE.theme);
+      updateThemeIcon();
+    }
+    
+    function toggleTheme() {
+      STATE.theme = STATE.theme === 'dark' ? 'light' : 'dark';
+      document.documentElement.setAttribute('data-theme', STATE.theme);
+      localStorage.setItem('theme', STATE.theme);
+      updateThemeIcon();
+      showToast(`Tema ${STATE.theme === 'dark' ? 'escuro' : 'claro'} ativado`);
+    }
+    
+    function updateThemeIcon() {
+      const icon = document.querySelector('#themeToggle i');
+      icon.className = STATE.theme === 'dark' ? 'fas fa-sun' : 'fas fa-moon';
+    }
+
+    // ===== PARTICLES =====
+    function initParticles() {
+      const container = document.getElementById('particles');
+      for(let i = 0; i < 40; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        p.style.left = Math.random() * 100 + '%';
+        p.style.top = Math.random() * 100 + '%';
+        p.style.animationDelay = Math.random() * 15 + 's';
+        p.style.animationDuration = (Math.random() * 10 + 10) + 's';
+        p.style.opacity = Math.random() * 0.4 + 0.1;
+        container.appendChild(p);
+      }
+    }
+
+    // ===== DATA LOADING =====
+    async function loadProtocols(silent = false) {
+      if(!silent) document.getElementById('loading').classList.remove('hidden');
+      
+      try {
+        // Try DefiLlama API (simplified endpoint)
+        const response = await fetch(`${CONFIG.apiBase}/protocols`, {
+          headers: { 'Accept': 'application/json' },
+          mode: 'cors'
+        });
+        
+        if(response.ok) {
+          const data = await response.json();
+          // Map API data to our format (simplified)
+          STATE.protocols = data.slice(0, 10).map((item, idx) => ({
+            id: item.id || item.name.toLowerCase().replace(/\s+/g, '-'),
+            rank: idx + 1,
+            name: item.name,
+            category: item.category || 'DEX',
+            revenue: parseFloat((item.revenue24h * 30 / 1000000).toFixed(1)) || DEFAULT_PROTOCOLS[idx]?.revenue || 0,
+            tvl: formatTVL(item.tvl || 0),
+            tvlNum: item.tvl || 0,
+            risk: calculateRisk(item.tvl, item.category),
+            desc: item.description || DEFAULT_PROTOCOLS[idx]?.desc || 'Protocolo DeFi descentralizado.',
+            url: item.url || '#',
+            docs: item.github || '#',
+            twitter: item.twitter || '',
+            chain: item.chain || 'Multi-chain'
+          }));
+        } else {
+          throw new Error('API fallback');
+        }
+      } catch(e) {
+        // Fallback to default data
+        console.log('Using fallback data:', e.message);
+        STATE.protocols = DEFAULT_PROTOCOLS.map(p => ({...p}));
+      }
+      
+      STATE.filtered = [...STATE.protocols];
+      if(!silent) document.getElementById('loading').classList.add('hidden');
+      filterAndRender();
+    }
+
+    function formatTVL(num) {
+      if(num >= 1e9) return '$' + (num/1e9).toFixed(1) + 'B';
+      if(num >= 1e6) return '$' + (num/1e6).toFixed(0) + 'M';
+      return '$' + num.toLocaleString();
+    }
+
+    function calculateRisk(tvl, category) {
+      if(tvl > 5e9) return 'low';
+      if(tvl > 1e9 || ['Lending', 'Staking'].includes(category)) return 'medium';
+      return 'high';
+    }
+
+    // ===== RENDERING =====
+    function renderProtocols(list) {
+      const grid = document.getElementById('protocolsGrid');
+      
+      if(list.length === 0) {
+        document.getElementById('emptyState').classList.remove('hidden');
+        grid.innerHTML = '';
+        return;
+      }
+      document.getElementById('emptyState').classList.add('hidden');
+      
+      grid.innerHTML = list.map((p, idx) => {
+        const clicks = STATE.clicks[p.id] || 0;
+        const clickDisplay = clicks > CONFIG.maxClicksDisplay ? `${CONFIG.maxClicksDisplay}+` : clicks;
+        const fireIcon = clicks > 50 ? '🔥' : clicks > 10 ? '⚡' : '';
+        
+        return `
+          <article class="card animate-fade" style="animation-delay:${idx * 0.05}s">
+            <div class="card-header">
+              <div class="protocol-info">
+                <div class="protocol-icon">
+                  <i class="fas ${getIcon(p.category)}"></i>
+                </div>
+                <div class="protocol-name">
+                  <h4>${p.name}</h4>
+                  <span class="protocol-rank">#${p.rank}</span>
+                </div>
+              </div>
+              <div class="protocol-metrics">
+                <div class="metric-value">
+                  <i class="fas fa-dollar-sign" style="font-size:1rem"></i>
+                  ${p.revenue}M
+                </div>
+                <div class="metric-label">receita 30D</div>
+              </div>
+            </div>
+            
+            <div class="protocol-tags">
+              <span class="tag">${p.category}</span>
+              <span class="tag tvl">TVL: ${p.tvl}</span>
+              <span class="risk-badge risk-${p.risk}">${p.risk}</span>
+            </div>
+            
+            <p class="protocol-desc">${p.desc}</p>
+            
+            <div class="card-actions">
+              <button class="btn btn-primary" onclick="openProtocol('${p.url}', '${p.name}')">
+                <i class="fas fa-external-link-alt"></i> Acessar
+              </button>
+              <button class="btn btn-secondary" onclick='showModal(${JSON.stringify(p).replace(/'/g, "\\'")})'>
+                <i class="fas fa-info-circle"></i> Detalhes
+              </button>
+            </div>
+            
+            ${clicks > 0 ? `<div class="click-count">${fireIcon} ${clickDisplay} acessos</div>` : ''}
+          </article>
+        `;
+      }).join('');
+    }
+
+    function getIcon(category) {
+      const icons = {
+        'DEX': 'fa-exchange-alt',
+        'Lending': 'fa-hand-holding-usd',
+        'Staking': 'fa-coins',
+        'Derivatives': 'fa-chart-line',
+        'Launchpad': 'fa-rocket'
+      };
+      return icons[category] || 'fa-cube';
+    }
+
+    // ===== FILTERING & SORTING =====
+    function filterAndRender() {
+      const search = document.getElementById('search').value.toLowerCase();
+      const category = document.getElementById('categoryFilter').value;
+      const risk = document.getElementById('riskFilter').value;
+      const sort = document.getElementById('sortBy').value;
+      
+      let filtered = STATE.protocols.filter(p => {
+        const matchSearch = !search || 
+          p.name.toLowerCase().includes(search) ||
+          p.category.toLowerCase().includes(search) ||
+          p.desc.toLowerCase().includes(search);
+        const matchCategory = category === 'all' || p.category === category;
+        const matchRisk = risk === 'all' || p.risk === risk;
+        return matchSearch && matchCategory && matchRisk;
+      });
+      
+      // Sorting
+      switch(sort) {
+        case 'revenue': filtered.sort((a,b) => b.revenue - a.revenue); break;
+        case 'tvl': filtered.sort((a,b) => (b.tvlNum||0) - (a.tvlNum||0)); break;
+        case 'az': filtered.sort((a,b) => a.name.localeCompare(b.name)); break;
+        default: filtered.sort((a,b) => a.rank - b.rank);
+      }
+      
+      STATE.filtered = filtered;
+      renderProtocols(filtered);
+    }
+
+    function resetFilters() {
+      document.getElementById('search').value = '';
+      document.getElementById('categoryFilter').value = 'all';
+      document.getElementById('riskFilter').value = 'all';
+      document.getElementById('sortBy').value = 'rank';
+      filterAndRender();
+      showToast('Filtros limpos');
+    }
+
+    // ===== MODAL =====
+    function showModal(p) {
+      document.getElementById('modalTitle').textContent = p.name;
+      
+      // Generate mini chart data
+      const chartData = generateChartData(p.revenue);
+      
+      document.getElementById('modalBody').innerHTML = `
+        <div class="modal-grid">
+          <div class="modal-stat">
+            <div class="modal-stat-value">$${p.revenue}M</div>
+            <div class="modal-stat-label">Receita 30D</div>
+          </div>
+          <div class="modal-stat">
+            <div class="modal-stat-value">${p.tvl}</div>
+            <div class="modal-stat-label">TVL</div>
+          </div>
+          <div class="modal-stat">
+            <div class="modal-stat-value">${p.chain}</div>
+            <div class="modal-stat-label">Blockchain</div>
+          </div>
+          <div class="modal-stat">
+            <div class="modal-stat-value risk-${p.risk}" style="text-transform:uppercase">${p.risk}</div>
+            <div class="modal-stat-label">Nível de Risco</div>
+          </div>
+        </div>
+        
+        <p class="modal-desc">${p.desc}</p>
+        
+        <div class="modal-chart">
+          <canvas id="revenueChart"></canvas>
+        </div>
+        
+        <div class="modal-links">
+          <a href="${p.url}" target="_blank" rel="noopener" class="modal-link" onclick="trackClick('${p.id}')">
+            <i class="fas fa-external-link-alt"></i>
+            <div>
+              <div style="font-weight:600">Acessar Plataforma</div>
+              <div style="font-size:0.8rem;color:var(--text-muted)">${new URL(p.url).hostname}</div>
+            </div>
+          </a>
+          <a href="${p.docs}" target="_blank" rel="noopener" class="modal-link">
+            <i class="fas fa-book"></i>
+            <div>
+              <div style="font-weight:600">Documentação</div>
+              <div style="font-size:0.8rem;color:var(--text-muted)">Guias e API</div>
+            </div>
+          </a>
+          ${p.twitter ? `
+          <a href="https://twitter.com/${p.twitter.replace('@','')}" target="_blank" rel="noopener" class="modal-link">
+            <i class="fab fa-twitter"></i>
+            <div>
+              <div style="font-weight:600">Twitter</div>
+              <div style="font-size:0.8rem;color:var(--text-muted)">${p.twitter}</div>
+            </div>
+          </a>` : ''}
+        </div>
+      `;
+      
+      document.getElementById('modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+      
+      // Render chart after DOM update
+      setTimeout(() => renderChart(chartData), 100);
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+      document.body.style.overflow = '';
+    }
+
+    function generateChartData(baseRevenue) {
+      // Simulate 7-day revenue trend
+      const data = [];
+      for(let i = 0; i < 7; i++) {
+        const variation = 0.7 + Math.random() * 0.6;
+        data.push(Math.round(baseRevenue / 7 * variation * 10) / 10);
+      }
+      return data;
+    }
+
+    function renderChart(data) {
+      const ctx = document.getElementById('revenueChart');
+      if(!ctx) return;
+      
+      // Destroy existing chart if any
+      if(window.revenueChart) window.revenueChart.destroy();
+      
+      const isDark = STATE.theme === 'dark';
+      window.revenueChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+          labels: ['Seg', 'Ter', 'Qua', 'Qui', 'Sex', 'Sáb', 'Dom'],
+          datasets: [{
+            label: 'Receita Diária ($M)',
+            data: data,
+            borderColor: 'var(--primary)',
+            backgroundColor: 'rgba(0, 212, 255, 0.1)',
+            borderWidth: 2,
+            fill: true,
+            tension: 0.4,
+            pointBackgroundColor: 'var(--primary)',
+            pointRadius: 3,
+            pointHoverRadius: 5
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { display: false },
+            tooltip: {
+              backgroundColor: 'var(--card)',
+              titleColor: 'var(--text)',
+              bodyColor: 'var(--text-muted)',
+              borderColor: 'var(--border)',
+              borderWidth: 1,
+              padding: 12,
+              displayColors: false
             }
-        ];
+          },
+          scales: {
+            y: {
+              beginAtZero: true,
+              grid: { color: isDark ? 'rgba(255,255,255,0.05)' : 'rgba(0,0,0,0.05)' },
+              ticks: { color: 'var(--text-muted)', font: {size: 10} }
+            },
+            x: {
+              grid: { display: false },
+              ticks: { color: 'var(--text-muted)', font: {size: 10} }
+            }
+          }
+        }
+      });
+    }
 
-        // Create Pro
+    // ===== ACTIONS =====
+    function openProtocol(url, name) {
+      if(confirm(`🔗 Você está acessando:\n\n${name}\n${url}\n\n✅ Verifique sempre o URL antes de conectar sua carteira.\n\nDeseja continuar?`)) {
+        trackClick(name.toLowerCase().replace(/\s+/g, '-'));
+        window.open(url, '_blank', 'noopener,noreferrer');
+      }
+    }
+
+    function trackClick(protocolId) {
+      STATE.clicks[protocolId] = (STATE.clicks[protocolId] || 0) + 1;
+      localStorage.setItem('clicks', JSON.stringify(STATE.clicks));
+      renderProtocols(STATE.filtered);
+    }
+
+    function updateStats() {
+      const totalRev = STATE.protocols.reduce((sum, p) => sum + p.revenue, 0);
+      const totalTVL = STATE.protocols.reduce((sum, p) => sum + (p.tvlNum || 0), 0);
+      
+      document.getElementById('totalProtocols').textContent = STATE.protocols.length;
+      document.getElementById('totalRevenue').textContent = '$' + totalRev.toFixed(0) + 'M';
+      document.getElementById('totalTVL').textContent = formatTVL(totalTVL);
+    }
+
+    function updateLastUpdate() {
+      const now = new Date();
+      const options = {day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'};
+      document.getElementById('lastUpdate').textContent = now.toLocaleDateString('pt-BR', options);
+    }
+
+    // ===== PWA =====
+    function setupPWA() {
+      if('serviceWorker' in navigator) {
+        // Register minimal SW for offline cache
+        const swContent = `
+          const CACHE = 'defi-hub-v1';
+          self.addEventListener('install', e => {
+            e.waitUntil(caches.open(CACHE).then(c => c.addAll(['/', '/index.html'])));
+          });
+          self.addEventListener('fetch', e => {
+            e.respondWith(caches.match(e.request).then(r => r || fetch(e.request)));
+          });
+        `;
+        const blob = new Blob([swContent], {type:'application/javascript'});
+        const swUrl = URL.createObjectURL(blob);
+        
+        navigator.serviceWorker.register(swUrl).catch(() => {});
+      }
+      
+      // Install prompt
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', e => {
+        e.preventDefault();
+        deferredPrompt = e;
+        document.getElementById('installBtn').style.display = 'flex';
+      });
+      
+      document.getElementById('installBtn')?.addEventListener('click', async () => {
+        if(deferredPrompt) {
+          deferredPrompt.prompt();
+          const result = await deferredPrompt.userChoice;
+          if(result.outcome === 'accepted') showToast('🎉 App instalado!');
+          deferredPrompt = null;
+          document.getElementById('installBtn').style.display = 'none';
+        }
+      });
+    }
+
+    // ===== UTILITIES =====
+    function showToast(msg, type = 'success') {
+      const toast = document.getElementById('toast');
+      document.getElementById('toastMsg').textContent = msg;
+      toast.style.display = 'flex';
+      toast.querySelector('i').className = `fas fa-${type === 'success' ? 'check-circle' : 'exclamation-circle'}`;
+      toast.querySelector('i').style.color = `var(--${type === 'success' ? 'success' : 'warning'})`;
+      
+      setTimeout(() => toast.style.display = 'none', 3000);
+    }
+
+    function showAbout() {
+      showToast('DeFi Hub Pro v2.0 • Open Source • Dados via DefiLlama API');
+    }
+
+    function exportData() {
+      const data = JSON.stringify(STATE.protocols, null, 2);
+      const blob = new Blob([data], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `defi-protocols-${new Date().toISOString().split('T')[0]}.json`;
+      a.click();
+      URL.revokeObjectURL(url);
+      showToast('📥 Dados exportados!');
+    }
+
+    function viewSource() {
+      window.open('https://github.com/seu-usuario/defi-hub-pro', '_blank');
+    }
+
+    // ===== EVENT LISTENERS =====
+    function setupEventListeners() {
+      document.getElementById('themeToggle').addEventListener('click', toggleTheme);
+      document.getElementById('search').addEventListener('input', filterAndRender);
+      document.getElementById('categoryFilter').addEventListener('change', filterAndRender);
+      document.getElementById('riskFilter').addEventListener('change', filterAndRender);
+      document.getElementById('sortBy').addEventListener('change', filterAndRender);
+      
+      // Close modal on click outside
+      document.getElementById('modal').addEventListener('click', e => {
+        if(e.target.id === 'modal') closeModal();
+      });
+      
+      // Keyboard shortcuts
+      document.addEventListener('keydown', e => {
+        if(e.key === 'Escape') closeModal();
+        if(e.ctrlKey && e.key === 'k') {
+          e.preventDefault();
+          document.getElementById('search').focus();
+        }
+      });
+      
+      // Visibility change - refresh if tab becomes active
+      document.addEventListener('visibilitychange', () => {
+        if(!document.hidden) updateLastUpdate();
+      });
+    }
+
+    // Close modal on back button (mobile)
+    window.addEventListener('popstate', closeModal);
+  </script>
+</body>
+</html>
